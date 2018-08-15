@@ -18,7 +18,6 @@ def home_page(request):
 
 def view_list(request):
 
-    #return render(request, 'lists/the-only-list-in-the-world.html')
-    return render(request, 'lists/home.html', {
-    'items': Item.objects.all()
+    return render(request, 'lists/list.html',
+    {'items': Item.objects.all()
     })

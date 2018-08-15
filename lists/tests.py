@@ -15,13 +15,13 @@ class ListViewTest(TestCase):
         self.assertContains(response, 'item 1')
         self.assertContains(response, 'item 2')
 
+    def test_uses_list_template(self):
+        response = self.client.get('/lists/the-only-list-in-the-world')
+        self.assertTemplateUsed(response, 'lists/list.html')
+
 class HomePageTests(TestCase):
 
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-
-    def test_home_page_returns_correct_html(self):
+    def test_home_page_returns_correct_html_uses_home_template(self):
         #use Django Test Client to call the view we want by passing a URL
         response = self.client.get('/')
 
@@ -47,16 +47,6 @@ class HomePageTests(TestCase):
     def test_only_saves_items_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
-
-    def test_displays_all_list_items(self):
-        Item.objects.create(text='item 1')
-        Item.objects.create(text='item 2')
-
-        response = self.client.get('/')
-
-        self.assertIn('item 1', response.content.decode())
-        self.assertIn('item 2', response.content.decode())
-
 
 class ItemModelTests(TestCase):
 
