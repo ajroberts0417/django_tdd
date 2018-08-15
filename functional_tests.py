@@ -40,22 +40,28 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Learn Django' for row in rows),
-            "New to-do item did not appear in table"
-        )
+
+        self.assertIn('1: Learn Django', [row.text for row in rows]) #check for "1: Learn Django" in a list of all the rows of the table
+
         # He still sees a text box inviting him to add another item.
         # He enters "Use Django to build a web application"
-        self.fail('SUCCESS!!, testing goat is pleased.\nBut Finish the test!')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Use Django to build a web application')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         # The page updates again, and now shows both items on his list
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Learn Django', [row.text for row in rows])
+        self.assertin('2: Use Django to build a web application', [row.text for row in rows])
 
         # Andrew wonders whether the site will remember his list.
         # Then, he sees that the site has generated a unique URL for him
         # -- because there is some explanatory text to that effect
 
         # He visits that URL, and his to-do list is still there.
-
+        self.fail('SUCCESS!!, testing goat is pleased.\nBut Finish the test!')
         # Satisfied, he ends his short (but meaningful) existence
 
         browser.quit()
