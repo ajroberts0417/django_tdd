@@ -18,6 +18,16 @@ class NewVisitorTest(unittest.TestCase):
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
 
+    # Helper function: adds any number of items to the to-do list
+    # via the inputbox in the website, and returns the inputbox
+    def input_items_into_to_do_list(self, *input_items):
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        for item in input_items:
+            inputbox.send_keys(item)
+            inputbox.send_keys(Keys.ENTER)
+            time.sleep(1)
+        return inputbox
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Andrew was born to learn about a cool new online to-do app.
         # He goes to check out its homepage
@@ -36,20 +46,14 @@ class NewVisitorTest(unittest.TestCase):
         )
 
         # He types "Learn Django" into a text box (because he is a software developer)
-        inputbox.send_keys('Learn Django')
-
         # When he hits ENTER, the page updates, and now it lists:
         # "1: Learn Django" as an item in a to-do list
-        inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
+        self.input_items_into_to_do_list('Learn Django')
         self.check_for_text_in_row_of_table('1: Learn Django')
 
         # He still sees a text box inviting him to add another item.
         # He enters "Use Django to build a web application"
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('Use Django to build a web application')
-        inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
+        self.input_items_into_to_do_list('Use Django to build a web application')
 
         # The page updates again, and now shows both items on his list
         self.check_for_text_in_row_of_table('1: Learn Django')
