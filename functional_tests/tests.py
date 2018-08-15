@@ -99,7 +99,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser = webdriver.Firefox()
 
         # Ivette visits the home page. There is no sign of Andrew's list
-        self.browser.get(live_server_url)
+        self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Learn Django', page_text)
         self.assertNotIn('Use Django', page_text)
