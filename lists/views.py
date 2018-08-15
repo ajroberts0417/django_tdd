@@ -12,9 +12,7 @@ def home_page(request):
         return redirect('/lists/the-only-list-in-the-world')
 
 
-    return render(request, 'lists/home.html', {
-    'items': Item.objects.all()
-    })
+    return render(request, 'lists/home.html')
 
 def view_list(request):
 
