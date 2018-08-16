@@ -114,7 +114,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(ivette_list_url, andrew_list_url)
 
         # Again, there is no trace of Andrew's list
-        page_text = self.browser.find_element_by_tag_name('body')
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Learn Django', page_text)
 
         # Her list is there, however.

@@ -19,6 +19,10 @@ from lists import views
 
 urlpatterns = [
     url(r'^$', views.home_page, name='home'),
-    url(r'^lists/the-only-list-in-the-world/$', views.view_list, name='view_list'),
     url(r'^lists/new$', views.new_list, name='new_list'),
+    ## The (\d+) below is a capture group, which will match any integers
+    ## passed to it up to the following /, and pass that text as an argument
+    ## to the view (view_list)
+    url(r'^lists/(\d+)/$', views.view_list, name='view_list'),
+    url(r'^lists/(\d+)/add_item$', views.add_item, name='add_item'),
 ]
