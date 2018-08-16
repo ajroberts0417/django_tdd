@@ -42,6 +42,29 @@ class NewVisitorTest(LiveServerTestCase):
             inputbox.send_keys(Keys.ENTER)
         return inputbox
 
+    def test_layout_and_styling(self):
+        # Andrew goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+        # He notices the input box is nicely centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width']/2,
+            512,
+            delta=10
+        )
+
+        # He starts a new list and the input is nicely centered, too
+        self.input_items_into_to_do_list('testing')
+        self.wait_for_row_in_list_table('1: testing')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width']/2,
+            512,
+            delta=10
+        )
+
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Andrew was born to learn about a cool new online to-do app.
         # He goes to check out its homepage
